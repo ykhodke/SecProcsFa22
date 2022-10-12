@@ -1,9 +1,9 @@
 #include "utility.h"
 
 // TODO: Uncomment the following lines and fill in the correct size
-//#define L1_SIZE [TODO]
-//#define L2_SIZE [TODO]
-//#define L3_SIZE [TODO]
+#define L1_SIZE 512
+#define L2_SIZE 4096
+#define L3_SIZE 131072
  
 int main (int ac, char **av) {
 
@@ -31,7 +31,7 @@ int main (int ac, char **av) {
 
     // [1.4] TODO: Uncomment the following line to allocate a buffer of a size
     // of your chosing. This will help you measure the latencies at L2 and L3.
-    //uint64_t *eviction_buffer = (uint64_t)malloc(TODO);
+    uint64_t *eviction_buffer = (uint64_t)malloc(8*sizeof(uint64_t)*4096);
 
     // Example: Measure L1 access latency, store results in l1_latency array
     for (int i=0; i<SAMPLES; i++){
@@ -57,7 +57,19 @@ int main (int ac, char **av) {
     // ======
     // [1.4] TODO: Measure L2 Latency, store results in l2_latency array
     // ======
-    //
+    // Access element once to get it into L1 and then access eviction set to evict it out of L1
+    for (int i=0; i<SAMPLES; i++){
+        // Step 1: bring the target cache line into L1 by simply accessing the line
+        tmp = target_buffer[0];
+
+        // Step 2: evict the cache line from L1
+        for (int j=0; i<8; j++) {
+            tmp = eviction_buffer[i*64];
+        }
+
+        // Step 3: measure the access latency
+        dram_latency[i] = measure_one_block_access_time((uint64_t)target_buffer);
+    }
 
     // ======
     // [1.4] TODO: Measure L3 Latency, store results in l3_latency array
