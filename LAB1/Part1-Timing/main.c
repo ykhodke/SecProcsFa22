@@ -45,7 +45,14 @@ int main (int ac, char **av) {
     // ======
     // [1.4] TODO: Measure DRAM Latency, store results in dram_latency array
     // ======
-    //
+    // Using clflush to evict the line and accessing it again
+    for (int i=0; i<SAMPLES; i++){
+        // Step 1: remove the line from cache
+        clflush((void *) target_buffer);
+
+        // Step 2: measure the access latency
+        dram_latency[i] = measure_one_block_access_time((uint64_t)target_buffer);
+    }
 
     // ======
     // [1.4] TODO: Measure L2 Latency, store results in l2_latency array
