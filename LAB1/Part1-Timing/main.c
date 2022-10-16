@@ -75,7 +75,7 @@ int main (int ac, char **av) {
 	for (int j = 0; j < 8; j++) {
 		for (int k = 2; k < L1_SIZE*1.5; k++){
 			evc = eviction_buffer[k*16+j];
-			evc +=  eviction_buffer[(k-2)*8+j];
+			//evc +=  eviction_buffer[(k-2)*8+j];
 			eviction_buffer[k*8+j] = evc;
 		}
 	}
@@ -96,7 +96,7 @@ int main (int ac, char **av) {
 	for (int j = 0; j < 8; j++) {
 		for (int k = 2; k < L2_SIZE*1.5; k++){
 			evc = eviction_buffer[k*8+j];
-			evc +=  eviction_buffer[(k-2)*8+j];
+			//evc +=  eviction_buffer[(k-2)*8+j];
 			eviction_buffer[k*8+j] = evc;
 		}
 	}
