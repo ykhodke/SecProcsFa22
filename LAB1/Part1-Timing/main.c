@@ -54,8 +54,6 @@ int main (int ac, char **av) {
     for (int i=0; i<SAMPLES; i++){
 	// Step 0: bring the target cache line into L1 by simply accessing the line
 	tmp = target_buffer[0]; 
- 	target_buffer[1] = tmp + 1;
-	tmp = target_buffer[1] + target_buffer[7];
 
         // Step 1: remove the line from cache
         clflush((void *)target_buffer);
