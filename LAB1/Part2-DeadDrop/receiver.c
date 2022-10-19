@@ -30,7 +30,7 @@ bool initial_cache_prime_probe (void* buf) {
 	}
 
 	for (int k = 2; k < L2_SIZE*1.5; k++){ 
-		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8+j));
+		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8));
 		if (l2_latency > max_l2_latency) {
 			max_l2_latency = l2_latency;
 		} 
