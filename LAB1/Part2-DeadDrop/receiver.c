@@ -29,14 +29,14 @@ bool initial_cache_prime_probe (void* buf) {
 		}
 	}
 
-	for (int k = 2; k < L2_SIZE*1.5; k++){ {
+	for (int k = 2; k < L2_SIZE*1.5; k++){
 		l2_latency = measure_one_block_access_time((uint64_t)eviction_buffer);
 		if (l2_latency > max_l2_latency) {
 			max_l2_latency = l2_latency;
 		} 
 	}
 
-	printf ("value for max_l2_latency is %lld \n", max_l2_latency);
+	printf ("value for max_l2_latency is %li \n", max_l2_latency);
 
 	if (max_l2_latency > L2_HIT_MISS_THRESHOLD) {
 		return false;
@@ -69,7 +69,6 @@ int main(int argc, char **argv)
 
 	while (true) {
 		bool l2_primed = initial_cache_prime_probe (buf);
-		if (l2_primed) break;
 	}
 
 	//Step 2: Using initial_cache_prime_probe check that all the L2 cache lines are occupies by the reciever
