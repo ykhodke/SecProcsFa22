@@ -22,14 +22,13 @@ bool initial_cache_prime_probe (void* buf) {
 	int num_cache_lines = BUFF_SIZE / 8;
 
 	for (int j = 0; j < 8; j++) {
-		for (int k = 2; k < L2_SIZE*1.5; k++){
+		for (int k = 2; k < L2_SIZE; k++){
 			evc = eviction_buffer[k*8+j];
-			//evc +=  eviction_buffer[(k-2)*8+j];
 			eviction_buffer[(k-2)*8+j] = evc;
 		}
 	}
 
-	for (int k = 2; k < L2_SIZE*1.5; k++){ 
+	for (int k = 2; k < L2_SIZE; k++){ 
 		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8));
 		if (l2_latency > max_l2_latency) {
 			max_l2_latency = l2_latency;
