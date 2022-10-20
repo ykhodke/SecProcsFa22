@@ -108,7 +108,8 @@ ssize_t lab2_victim_write(struct file *file_in, const char __user *userbuf, size
 
     if (copy_from_user(&user_cmd, userbuf, sizeof(user_cmd)) == 0) {
         // arg1 is always a pointer to the shared memory region
-        if (!access_ok(user_cmd.arg1, LAB2_SHARED_MEMORY_SIZE)) {
+        // if (!access_ok(user_cmd.arg1, LAB2_SHARED_MEMORY_SIZE)) {
+        if (!access_ok(VERIFY_READ, user_cmd.arg1, LAB2_SHARED_MEMORY_SIZE)) { //older kernel
             printk(KERN_INFO "[lab2] Invalid user request- shared memory is 0x%llX\n", user_cmd.arg1);
             return num_bytes;
         }
@@ -127,7 +128,8 @@ ssize_t lab2_victim_write(struct file *file_in, const char __user *userbuf, size
             // If the return value is negative, its an error, so don't try to unpin!
             if (retval > 0) {
                 // Unpin the pages that got pinned before exiting
-                put_user_pages(pages, retval);
+                // put_user_pages(pages, retval);
+                put_page(pages); //older kernel
             }
 
             return num_bytes;
@@ -193,7 +195,8 @@ ssize_t lab2_victim_write(struct file *file_in, const char __user *userbuf, size
         }
 
         // Unpin to ensure refcounts are valid
-        put_user_pages(pages, LAB2_SHARED_MEMORY_NUM_PAGES);
+        // put_user_pages(pages, LAB2_SHARED_MEMORY_NUM_PAGES);
+        put_page(pages); //older kernel
 
         // Success!
         return num_bytes;
