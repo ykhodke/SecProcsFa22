@@ -95,10 +95,19 @@ int main(int argc, char **argv)
 	check_initial_prime = probe_cache (buf, evicted_indices);
 	
 	if (check_initial_prime) {
-		printf ("BRUH this is working POGGIES \n");
+		printf ("This is working.\n");
 	}
 	else {
-		printf ("BRUH this ain't working Sadge \n");
+		printf ("This ain't working.\n");
+	}
+
+	check_initial_prime = probe_cache (buf, evicted_indices);
+	
+	if (check_initial_prime) {
+		printf ("This is working.\n");
+	}
+	else {
+		printf ("This ain't working.\n");
 	}
 
 	printf("Please press enter.\n");
