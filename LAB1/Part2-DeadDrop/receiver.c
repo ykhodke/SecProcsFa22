@@ -11,11 +11,12 @@
 
 // Returns true if the entire L2 cache is Primed with reciever's address space
 bool initial_cache_prime_probe (void* buf) {
-	volatile uint64_t evc;
 
+	volatile uint64_t evc;
+	
 	uint64_t* eviction_buffer = (uint64_t *) buf;
-	uint64_t l2_latency = 0;
-	uint64_t max_l2_latency = 0;
+	uint64_t  l2_latency 	  = 0;
+	uint64_t  max_l2_latency  = 0;
 
 	// 8 bytes is the line size
 	// L2 cache is 8 way associative
@@ -43,14 +44,25 @@ bool initial_cache_prime_probe (void* buf) {
 	else {
 		return true;
 	}
-}
-
-void prime_cache (){
 
 }
 
-int probe_cache () {
-	return 0;
+
+int probe_cache (void* buf, int* evicted_indices) {
+
+	uint64_t* eviction_buffer = (uint64_t *) buf;
+	int flag = 0;
+	
+	for (int k = 0; k < L2_SIZE; k++) { 
+		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8));
+		if (l2_latency > L2_HIT_MISS_THRESHOLD) {
+			evicted_indices[i] == k;
+			i++; 
+			flag = 1;
+		} 
+	}
+
+	return flag;
 }
 
 int main(int argc, char **argv)
@@ -61,16 +73,19 @@ int main(int argc, char **argv)
     // See the handout for details about hugepage management
     void *buf= mmap(NULL, BUFF_SIZE, PROT_READ | PROT_WRITE, MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE | MAP_HUGETLB, -1, 0);
 
+	int* evicted_indices = (int *)malloc(10*sizeof(int *));
+
     if (buf == (void*) - 1) {
         perror("mmap() error\n");
         exit(EXIT_FAILURE);
     }
 
+	//Step 2: Using initial_cache_prime_probe check that all the L2 cache lines are occupies by the reciever
 	while (true) {
 		bool l2_primed = initial_cache_prime_probe (buf);
 	}
 
-	//Step 2: Using initial_cache_prime_probe check that all the L2 cache lines are occupies by the reciever
+	//Step 3: Double check for cache occupany :: Could be removed later since initial conditions take care of it
 
 
 	printf("Please press enter.\n");
@@ -83,7 +98,8 @@ int main(int argc, char **argv)
 	bool listening = true;
 	while (listening) {
 
-		// Put your covert channel code here
+	//Step 4: Put your covert channel code here
+	//Checks for the cache entries populated by the reciever and finds out eviction indices to
 
 	}
 

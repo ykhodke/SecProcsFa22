@@ -52,8 +52,8 @@ int main (int ac, char **av) {
     // [1.4] TODO: Measure DRAM Latency, store results in dram_latency array
     // ======
     for (int i=0; i<SAMPLES; i++){
-	// Step 0: bring the target cache line into L1 by simply accessing the line
-	tmp = target_buffer[0]; 
+        // Step 0: bring the target cache line into L1 by simply accessing the line
+        tmp = target_buffer[0]; 
 
         // Step 1: remove the line from cache
         clflush((void *)target_buffer);
@@ -70,13 +70,13 @@ int main (int ac, char **av) {
         tmp = target_buffer[0];
 
         // Step 2: evict the cache line from L1
-	for (int j = 0; j < 8; j++) {
-		for (int k = 2; k < L1_SIZE*1.5; k++){
-			evc = eviction_buffer[k*16+j];
-			//evc +=  eviction_buffer[(k-2)*8+j];
-			eviction_buffer[k*8+j] = evc;
-		}
-	}
+        for (int j = 0; j < 8; j++) {
+            for (int k = 2; k < L1_SIZE*1.5; k++){
+                evc = eviction_buffer[k*16+j];
+                //evc +=  eviction_buffer[(k-2)*8+j];
+                eviction_buffer[k*8+j] = evc;
+            }
+        }
 			
 
         // Step 3: measure the access latency
@@ -91,13 +91,13 @@ int main (int ac, char **av) {
         tmp = target_buffer[0];
 
         // Step 2: evict the cache line from L1
-	for (int j = 0; j < 8; j++) {
-		for (int k = 2; k < L2_SIZE*1.5; k++){
-			evc = eviction_buffer[k*8+j];
-			//evc +=  eviction_buffer[(k-2)*8+j];
-			eviction_buffer[k*8+j] = evc;
-		}
-	}
+        for (int j = 0; j < 8; j++) {
+            for (int k = 2; k < L2_SIZE*1.5; k++){
+                evc = eviction_buffer[k*8+j];
+                //evc +=  eviction_buffer[(k-2)*8+j];
+                eviction_buffer[k*8+j] = evc;
+            }
+	    }
 			
 
         // Step 3: measure the access latency
