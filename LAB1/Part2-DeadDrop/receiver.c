@@ -61,7 +61,7 @@ int probe_cache (void* buf, int* evicted_indices) {
 			evicted_indices[i] == k;
 			i++; 
 			flag = 1;
-			printf("this is the obserbved l2_cahce latency %li \n", l2_latency);
+			//printf("this is the obserbved l2_cahce latency %li \n", l2_latency);
 		} 
 	}
 
