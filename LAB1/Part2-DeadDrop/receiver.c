@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     void *buf= mmap(NULL, BUFF_SIZE, PROT_READ | PROT_WRITE, MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE | MAP_HUGETLB, -1, 0);
 
 	int* evicted_indices = (int *)malloc(10*sizeof(int *));
-	int check_initial_prime;
+	int check_initial_prime, check_initial_prime_d1;
 
     if (buf == (void*) - 1) {
         perror("mmap() error\n");
@@ -95,19 +95,10 @@ int main(int argc, char **argv)
 	check_initial_prime = probe_cache (buf, evicted_indices);
 	
 	if (check_initial_prime) {
-		printf ("This is working.\n");
-	}
-	else {
 		printf ("This ain't working.\n");
 	}
-
-	check_initial_prime = probe_cache (buf, evicted_indices);
-	
-	if (check_initial_prime) {
-		printf ("This is working.\n");
-	}
 	else {
-		printf ("This ain't working.\n");
+		printf ("This is working.\n");
 	}
 
 	printf("Please press enter.\n");
