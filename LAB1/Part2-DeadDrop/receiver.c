@@ -23,9 +23,9 @@ bool initial_cache_prime_probe (void* buf) {
 	int num_cache_lines = BUFF_SIZE / 8;
 
 	for (int j = 0; j < 8; j++) {
-		for (int k = 2; k < L2_SIZE; k++) {
+		for (int k = 0; k < L2_SIZE; k++) {
 			evc = eviction_buffer[k*8+j];
-			eviction_buffer[(k-2)*8+j] = evc;
+			eviction_buffer[(L2_SIZE - k)*8+j] = evc;
 		}
 	}
 
