@@ -76,6 +76,7 @@ int main(int argc, char **argv)
     void *buf= mmap(NULL, BUFF_SIZE, PROT_READ | PROT_WRITE, MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE | MAP_HUGETLB, -1, 0);
 
 	int* evicted_indices = (int *)malloc(10*sizeof(int *));
+	int check_initial_prime;
 
     if (buf == (void*) - 1) {
         perror("mmap() error\n");
@@ -85,10 +86,20 @@ int main(int argc, char **argv)
 	//Step 2: Using initial_cache_prime_probe check that all the L2 cache lines are occupies by the reciever
 	while (true) {
 		bool l2_primed = initial_cache_prime_probe (buf);
+		if (l2_primed) {
+			break;
+		}
 	}
 
 	//Step 3: Double check for cache occupany :: Could be removed later since initial conditions take care of it
-
+	check_initial_prime = probe_cache (buf, evicted_indices);
+	
+	if (check_initial_prime) {
+		printf ("BRUH this is working POGGIES \n");
+	}
+	else {
+		printf ("BRUH this ain't working Sadge \n");
+	}
 
 	printf("Please press enter.\n");
 
