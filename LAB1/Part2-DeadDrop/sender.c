@@ -41,7 +41,6 @@ int main(int argc, char **argv)
     bool test_transmission_bit = false;
     char datum_line0, datum_line1;
 
-    char bin_str[9];
     int base_buff_offset;
 
     // TODO: Put your covert channel setup code here
@@ -64,9 +63,9 @@ int main(int argc, char **argv)
         // use the decode function to convert the string into interger
 
         //convert the char we obtained into a format ideal for converting to strided access
-        //bin_str = string_to_int(text_buf);
+        base_buff_offset = convert_binary_strin_to_int (string_to_binary(text_buf));
 
-        printf ("This was the original 8-bit input %s, this is the offset which it computed %i", string_to_int(text_buf), base_buff_offset);
+        printf("base_buff_offset %i \n", base_buff_offset);
 
 
     }
