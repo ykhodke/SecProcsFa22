@@ -44,7 +44,7 @@ int main(int argc, char **argv)
     bool test_transmission_bit = false;
     char datum_line0, datum_line1;
 
-    int bin_str;
+    char bin_str[9];
     int base_buff_offset;
 
     // TODO: Put your covert channel setup code here
@@ -62,8 +62,6 @@ int main(int argc, char **argv)
     while (sending) {
         char text_buf[128];
         fgets(text_buf, sizeof(text_buf), stdin);
-
-        int base_buf_offset;
 
         // TODO: Put your covert channel code here
         // use the decode function to convert the string into interger
