@@ -42,6 +42,10 @@ int main(int argc, char **argv)
         fgets(text_buf, sizeof(text_buf), stdin);
 
         // TODO: Put your covert channel code here
+        // use the decode function to convert the string into interger
+
+        printf ("%s < text_buffer \n", text_buf);
+
     }
 
     printf("Sender finished.\n");
