@@ -136,10 +136,10 @@ int main(int argc, char **argv)
 		
 		//Step 4: Put your covert channel code here
 		//Checks for the cache entries populated by the reciever and finds out eviction indices to
-		error_flag = prime_cache(buf, evicted_indices);
+		error_flag = probe(buf, evicted_indices);
 		if (error_flag == 0) {
 			recovered_secret = evicted_indices[2] - evicted_indices[1];
-			printf ("The secret is %c \n", (char)int);
+			printf ("The secret is %c \n", (char)recovered_secret);
 		}
 
 	}
