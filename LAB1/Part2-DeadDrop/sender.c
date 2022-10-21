@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     *((char *)buf) = 1; // dummy write to trigger page allocation
 
     bool test_transmission_bit = false;
-    char datum_line0, datum_line1;
+    char datum_line0, datum_line1, actual_eviction;
 
     int base_buff_offset;
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     datum_line0 = *((char *) buf);
     datum_line1 = *((char *) buf+64);
 
-    printf("\n the lines evicted are %p, %p", (void *)buf, (void*)(buf+64));
+    printf("\n the lines evicted are %p, %p \n", (void *)buf, (void*)(buf+64));
 
     printf("Please type a message.\n");
 
@@ -60,14 +60,13 @@ int main(int argc, char **argv)
         fgets(text_buf, sizeof(text_buf), stdin);
 
         // TODO: Put your covert channel code here
-        // use the decode function to convert the string into interger
-
-        //convert the char we obtained into a format ideal for converting to strided access
+        // use the decode function to convert the string into interger converting to strided access
         base_buff_offset = convert_binary_strin_to_int (string_to_binary(text_buf));
-
         printf("base_buff_offset %i \n", base_buff_offset);
 
-
+        //use this bas_buff_offset as a stride to evacuate another line from the datum
+        actual_eviction = *((char *) buf+(64*base_buff_offset));
+        printf("\n the lines evicted are %p, %p, %p \n", (void*)buf, (void*)(buf+64), (void*)(buf+(64*base_buff_offset)));
     }
 
     printf("Sender finished.\n");
