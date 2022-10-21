@@ -13,8 +13,7 @@
 bool initial_cache_prime_probe (void* buf) {
 
 	volatile uint64_t evc;
-	
-	uint64_t* eviction_buffer = (uint64_t *) buf;
+
 	uint64_t  l2_latency 	  = 0;
 	uint64_t  max_l2_latency  = 0;
 
@@ -24,13 +23,13 @@ bool initial_cache_prime_probe (void* buf) {
 
 	for (int j = 0; j < 8; j++) {
 		for (int k = 0; k < L2_SIZE; k++) {
-			evc = eviction_buffer[k*8+j];
-			eviction_buffer[(L2_SIZE - k)*8+j] = evc;
+			evc = eviction_buffer[k*64+j];
+			eviction_buffer[(L2_SIZE - 1 - k)*64+j] = evc;
 		}
 	}
 
 	for (int k = 0; k < L2_SIZE; k++) { 
-		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8));
+		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*64));
 		if (l2_latency > max_l2_latency) {
 			max_l2_latency = l2_latency;
 		} 
@@ -48,7 +47,7 @@ bool initial_cache_prime_probe (void* buf) {
 }
 
 
-int probe_cache (void* buf, int* evicted_indices) {
+int1 probe_cache (void* buf, int* evicted_indices) {
 
 	uint64_t* eviction_buffer = (uint64_t *) buf;
 	uint64_t  l2_latency;
@@ -59,12 +58,13 @@ int probe_cache (void* buf, int* evicted_indices) {
 		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8));
 		if (l2_latency > L2_HIT_MISS_THRESHOLD) {
 			evicted_indices[i] == k;
-			i++; 
-			flag = 1;
-			//printf("this is the obserbved l2_cahce latency %li \n", l2_latency);
+			i++;
+			if (i>10) {
+				flag = 1;
+				break;
+			}
 		} 
 	}
-
 	return flag;
 }
 
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
     void *buf= mmap(NULL, BUFF_SIZE, PROT_READ | PROT_WRITE, MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE | MAP_HUGETLB, -1, 0);
 
 	int* evicted_indices = (int *)malloc(10*sizeof(int *));
-	int check_initial_prime, check_initial_prime_d1;
+	int check_initial_prime;
 
     if (buf == (void*) - 1) {
         perror("mmap() error\n");
@@ -112,8 +112,10 @@ int main(int argc, char **argv)
 	bool listening = true;
 	while (listening) {
 
-	//Step 4: Put your covert channel code here
-	//Checks for the cache entries populated by the reciever and finds out eviction indices to
+
+
+		//Step 4: Put your covert channel code here
+		//Checks for the cache entries populated by the reciever and finds out eviction indices to
 
 	}
 
