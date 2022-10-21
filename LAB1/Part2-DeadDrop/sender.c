@@ -23,11 +23,16 @@ int main(int argc, char **argv)
     *((char *)buf) = 1; // dummy write to trigger page allocation
 
     bool test_transmission_bit = false;
+    char datum_line0, datum_line1;
 
     // TODO: Put your covert channel setup code here
     // Creating a function to map the transmission bit to an address in the buffer allocated via mmap ?
 
+    //Create a datum line with 2 consecutive
+    datum_line0 = *((char *) buf);
+    datum_line1 = *((char *) buf+64);
 
+    print ("\n the lines evicted are %p, %p", (void *)&buf (void*)&(buf+64));
 
     printf("Please type a message.\n");
 
