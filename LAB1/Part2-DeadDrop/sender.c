@@ -6,6 +6,25 @@
 // TODO: define your own buffer size
 #define BUFF_SIZE (1<<21)
 
+int convert_binary_strin_to_int (char *binary_string) {
+    int binary_rep = 0;
+    
+    printf("bruh :%li:",strlen(binary_string));
+    
+    for (int i = 0; i < strlen(binary_string); i++){
+        printf("binary[i] is :%c: %c \n", binary_string[i],'1');
+        if (i == 0) {
+            binary_rep = (binary_string[i] == '1') ? 1: 0;
+        }
+        else {
+            binary_rep = binary_rep << 1;
+            binary_rep = (binary_string[i] == '1') ? (binary_rep + 1): binary_rep;
+        }
+    }
+    
+    return binary_rep;
+}
+
 int main(int argc, char **argv)
 {
     // Allocate a buffer using huge page
@@ -25,7 +44,8 @@ int main(int argc, char **argv)
     bool test_transmission_bit = false;
     char datum_line0, datum_line1;
 
-    int str_to_num;
+    int bin_str;
+    int base_buff_offset;
 
     // TODO: Put your covert channel setup code here
     // Creating a function to map the transmission bit to an address in the buffer allocated via mmap ?
@@ -43,14 +63,16 @@ int main(int argc, char **argv)
         char text_buf[128];
         fgets(text_buf, sizeof(text_buf), stdin);
 
+        int base_buf_offset;
+
         // TODO: Put your covert channel code here
         // use the decode function to convert the string into interger
 
         //convert the char we obtained into a format ideal for converting to strided access
-        str_to_num = string_to_int(text_buf);
-        printf ("text_buffer: %s, its size: %li, the integer conversion %i \n", text_buf, strlen(text_buf), str_to_num);
+        bin_str = string_to_int(text_buf);
+        base_buf_offset = convert_binary_strin_to_int(bin_str);
 
-
+        printf ("This was the original 8-bit input %s, this is the offset which it computed %i", bin_str, base_buf_offset);
 
 
     }
