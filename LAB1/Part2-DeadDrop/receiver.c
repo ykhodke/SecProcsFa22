@@ -46,6 +46,25 @@ bool initial_cache_prime_probe (void* buf) {
 
 }
 
+void prime_cache (void* buf) {
+
+	volatile uint64_t evc;
+	uint64_t* eviction_buffer = (uint64_t *) buf;
+	uint64_t  l2_latency 	  = 0;
+	uint64_t  max_l2_latency  = 0;
+
+	// 8 bytes is the line size
+	// L2 cache is 8 way associative
+	int num_cache_lines = BUFF_SIZE / 8;
+
+	for (int j = 0; j < 8; j++) {
+		for (int k = 0; k < L2_SIZE; k++) {
+			evc = eviction_buffer[k*64+j];
+			eviction_buffer[(L2_SIZE - 1 - k)*64+j] = evc;
+		}
+	}
+
+}
 
 int probe_cache (void* buf, int* evicted_indices) {
 
@@ -65,7 +84,8 @@ int probe_cache (void* buf, int* evicted_indices) {
 			}
 		} 
 	}
-	return flag;
+	return flag; // this should never happen as I am evictiing max 3 lines to begin with
+
 }
 
 int main(int argc, char **argv)
@@ -78,6 +98,8 @@ int main(int argc, char **argv)
 
 	int* evicted_indices = (int *)malloc(10*sizeof(int *));
 	int check_initial_prime;
+	int error_flag;
+	int recovered_secret;
 
     if (buf == (void*) - 1) {
         perror("mmap() error\n");
@@ -93,14 +115,13 @@ int main(int argc, char **argv)
 	}
 
 	//Step 3: Double check for cache occupany :: Could be removed later since initial conditions take care of it
-	check_initial_prime = probe_cache (buf, evicted_indices);
-	
-	if (check_initial_prime) {
-		printf ("This ain't working.\n");
-	}
-	else {
-		printf ("This is working.\n");
-	}
+	// check_initial_prime = probe_cache (buf, evicted_indices);
+	// if (check_initial_prime) {
+	// 	printf ("This ain't working.\n");
+	// }
+	// else {
+	// 	printf ("This is working.\n");
+	// }
 
 	printf("Please press enter.\n");
 
@@ -111,11 +132,15 @@ int main(int argc, char **argv)
 
 	bool listening = true;
 	while (listening) {
-
-
-
+		prime_cache (buf);
+		
 		//Step 4: Put your covert channel code here
 		//Checks for the cache entries populated by the reciever and finds out eviction indices to
+		error_flag = prime_cache(buf, evicted_indices);
+		if (error_flag == 0) {
+			recovered_secret = evicted_indices[2] - evicted_indices[1];
+			printf ("The secret is %c \n", (char)int);
+		}
 
 	}
 
