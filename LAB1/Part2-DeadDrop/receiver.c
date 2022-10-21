@@ -23,13 +23,13 @@ bool initial_cache_prime_probe (void* buf) {
 
 	for (int j = 0; j < 8; j++) {
 		for (int k = 0; k < L2_SIZE; k++) {
-			evc = eviction_buffer[k*64+j];
-			eviction_buffer[(L2_SIZE - 1 - k)*64+j] = evc;
+			evc = buf[k*64+j];
+			buf[(L2_SIZE - 1 - k)*64+j] = evc;
 		}
 	}
 
 	for (int k = 0; k < L2_SIZE; k++) { 
-		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*64));
+		l2_latency = measure_one_block_access_time((uint64_t)(buf+k*64));
 		if (l2_latency > max_l2_latency) {
 			max_l2_latency = l2_latency;
 		} 
@@ -47,15 +47,14 @@ bool initial_cache_prime_probe (void* buf) {
 }
 
 
-int1 probe_cache (void* buf, int* evicted_indices) {
+int probe_cache (void* buf, int* evicted_indices) {
 
-	uint64_t* eviction_buffer = (uint64_t *) buf;
 	uint64_t  l2_latency;
 	int i;
 	int flag = 0;
 	
 	for (int k = 0; k < L2_SIZE; k++) { 
-		l2_latency = measure_one_block_access_time((uint64_t)(eviction_buffer+k*8));
+		l2_latency = measure_one_block_access_time((uint64_t)(buff+k*64));
 		if (l2_latency > L2_HIT_MISS_THRESHOLD) {
 			evicted_indices[i] == k;
 			i++;
