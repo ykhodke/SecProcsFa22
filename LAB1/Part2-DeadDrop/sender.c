@@ -47,7 +47,7 @@ int main(int argc, char **argv)
         // use the decode function to convert the string into interger
 
         //convert the char we obtained into a format ideal for converting to strided access
-        str_to_num = string_to_int(text_buf)
+        str_to_num = string_to_int(text_buf);
         printf ("text_buffer: %s, its size: %li, the integer conversion %i \n", text_buf, strlen(text_buf), str_to_num);
 
 
