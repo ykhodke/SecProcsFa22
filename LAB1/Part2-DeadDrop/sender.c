@@ -9,6 +9,8 @@
 int convert_binary_strin_to_int (char *binary_string) {
     int binary_rep = 0;
     
+    printf(" The string length on the int conversion function %li", strlen(binary_string));
+
     for (int i = 0; i < strlen(binary_string); i++){
         if (i == 0) {
             binary_rep = (binary_string[i] == '1') ? 1: 0;
