@@ -21,6 +21,8 @@ CYCLES measure_one_block_access_time(ADDR_PTR addr)
 	return cycles;
 }
 
+//final sub
+
 /*
  * CLFlushes the given address.
  * 
