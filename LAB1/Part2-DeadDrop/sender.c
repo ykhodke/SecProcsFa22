@@ -9,8 +9,6 @@
 int convert_binary_strin_to_int (char *binary_string) {
     int binary_rep = 0;
     
-    printf("bruh :%li:",strlen(binary_string));
-    
     for (int i = 0; i < strlen(binary_string); i++){
         printf("binary[i] is :%c: %c \n", binary_string[i],'1');
         if (i == 0) {
@@ -44,7 +42,7 @@ int main(int argc, char **argv)
     bool test_transmission_bit = false;
     char datum_line0, datum_line1;
 
-    char bin_str[9];
+    char* bin_str = (char *)malloc(8*sizeof(char));
     int base_buff_offset;
 
     // TODO: Put your covert channel setup code here
@@ -68,7 +66,7 @@ int main(int argc, char **argv)
 
         //convert the char we obtained into a format ideal for converting to strided access
         bin_str = string_to_int(text_buf);
-        base_buf_offset = convert_binary_strin_to_int(bin_str);
+        base_buff_offset = convert_binary_strin_to_int(bin_str);
 
         printf ("This was the original 8-bit input %s, this is the offset which it computed %i", bin_str, base_buf_offset);
 
