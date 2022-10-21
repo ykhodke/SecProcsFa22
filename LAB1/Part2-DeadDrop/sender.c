@@ -44,7 +44,7 @@ int main(int argc, char **argv)
         // TODO: Put your covert channel code here
         // use the decode function to convert the string into interger
 
-        printf ("%s < text_buffer \n", text_buf);
+        printf ("%s < text_buffer \n %i ", text_buf, strlen(text_buf));
 
     }
 
