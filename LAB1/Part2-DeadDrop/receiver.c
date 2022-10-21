@@ -47,7 +47,7 @@ bool initial_cache_prime_probe (void* buf) {
 }
 
 
-int1 probe_cache (void* buf, int* evicted_indices) {
+int probe_cache (void* buf, int* evicted_indices) {
 
 	uint64_t* eviction_buffer = (uint64_t *) buf;
 	uint64_t  l2_latency;
