@@ -25,10 +25,12 @@ int main(int argc, char **argv)
     bool test_transmission_bit = false;
     char datum_line0, datum_line1;
 
+    int str_to_num;
+
     // TODO: Put your covert channel setup code here
     // Creating a function to map the transmission bit to an address in the buffer allocated via mmap ?
 
-    //Create a datum line with 2 consecutive
+    //Create a datum line with 2 consecutive eviction from the cache
     datum_line0 = *((char *) buf);
     datum_line1 = *((char *) buf+64);
 
@@ -44,7 +46,12 @@ int main(int argc, char **argv)
         // TODO: Put your covert channel code here
         // use the decode function to convert the string into interger
 
-        printf ("%s < text_buffer \n %li ", text_buf, strlen(text_buf));
+        //convert the char we obtained into a format ideal for converting to strided access
+        str_to_num = string_to_int(text_buf)
+        printf ("text_buffer: %s, its size: %li, the integer conversion %i \n", text_buf, strlen(text_buf), str_to_num);
+
+
+
 
     }
 
