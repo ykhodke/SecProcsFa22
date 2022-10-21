@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     datum_line0 = *((char *) buf);
     datum_line1 = *((char *) buf+64);
 
-    print ("\n the lines evicted are %p, %p", (void *)&buf (void*)&(buf+64));
+    printf("\n the lines evicted are %p, %p", (void *)&buf (void*)&(buf+64));
 
     printf("Please type a message.\n");
 
