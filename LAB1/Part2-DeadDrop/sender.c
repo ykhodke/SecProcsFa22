@@ -64,9 +64,9 @@ int main(int argc, char **argv)
         // use the decode function to convert the string into interger
 
         //convert the char we obtained into a format ideal for converting to strided access
-        bin_str = string_to_int(text_buf);
+        //bin_str = string_to_int(text_buf);
 
-        printf ("This was the original 8-bit input %s, this is the offset which it computed %i", string_to_int(text_buf), base_buf_offset);
+        printf ("This was the original 8-bit input %s, this is the offset which it computed %i", string_to_int(text_buf), base_buff_offset);
 
 
     }
