@@ -68,7 +68,7 @@ int main(int argc, char **argv)
         bin_str = string_to_int(text_buf);
         base_buff_offset = convert_binary_strin_to_int(bin_str);
 
-        printf ("This was the original 8-bit input %s, this is the offset which it computed %i", bin_str, base_buf_offset);
+        printf ("This was the original 8-bit input %s, this is the offset which it computed %i", bin_str, base_buff_offset);
 
 
     }
