@@ -56,7 +56,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
         //Flushing the memory here
         for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset++) {
-            clflush(shared_memory+flush_offset);
+            clflush((void*)shared_memory+flush_offset);
         }
 
         //Use call kernel to access data
