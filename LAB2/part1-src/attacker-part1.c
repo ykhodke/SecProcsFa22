@@ -61,7 +61,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
             dram_latency_bf = time_access((void*)(shared_memory+flush_offset));
             clflush((void*)(shared_memory+flush_offset));
             dram_latency = time_access((void*)(shared_memory+flush_offset));
-            printf("\n This is the latency before flush %li and after flush", dram_latency_bf,dram_latency);
+            printf("\n This is the latency before flush %li and after flush %li", dram_latency_bf,dram_latency);
         }
 
         //Use call kernel to access data
