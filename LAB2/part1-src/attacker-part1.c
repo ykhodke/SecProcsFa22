@@ -52,11 +52,16 @@ int run_attacker(int kernel_fd, char *shared_memory) {
         // Find the value of leaked_byte for offset "current_offset"
         // leaked_byte = ??
         size_t flush_offset;
-        uint64_t dram_latency;
+        uint64_t dram_latency_bf,dram_latency;
+        volatile char load_shared_mem;
 
         //Flushing the memory here
-        for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset++) {
-            clflush((void*)shared_memory+flush_offset);
+        for (flush_offset = 0; flush_offset < 10; flush_offset++) {
+            load_shared_mem = (char)(shared_memory+flush_offset);
+            dram_latency_bf = time_access((void*)(shared_memory+flush_offset));
+            clflush((void*)(shared_memory+flush_offset));
+            dram_latency = time_access((void*)(shared_memory+flush_offset));
+            printf("\n This is the latency before flush %li and after flush", dram_latency_bf,dram_latency);
         }
 
         //Use call kernel to access data
