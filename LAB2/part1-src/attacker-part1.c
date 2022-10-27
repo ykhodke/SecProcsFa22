@@ -67,7 +67,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
             dram_latency = time_access((void*)(shared_memory+flush_offset));
             if (dram_latency > 100){
                 leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
-                printf("\n This is the char we leaked %c", leaked_byte);
+                printf("\n This is the char we leaked %li", dram_latency);
             }
         }
 
