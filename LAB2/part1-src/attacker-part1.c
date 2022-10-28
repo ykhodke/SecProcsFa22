@@ -75,7 +75,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
             //printf("\n This is the cache line access latency: %li", dram_latency);
             if (dram_latency < 70){
                 leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
-                //printf("\n This is the char we leaked %li, %li", dram_latency, (flush_offset/4096));
+                printf("\n This is the char we leaked %li, %li", dram_latency, (flush_offset/4096));
                 //break;
             }
         }
