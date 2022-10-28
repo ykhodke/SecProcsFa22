@@ -40,6 +40,9 @@ static inline void call_kernel_part1(int kernel_fd, char *shared_memory, size_t 
 int run_attacker(int kernel_fd, char *shared_memory) {
     char leaked_str[LAB2_SECRET_MAX_LEN];
     size_t current_offset = 0;
+    size_t flush_offset;
+    uint64_t dram_latency_bf,dram_latency;
+    volatile char load_shared_mem;
 
     printf("Launching attacker\n");
     
@@ -60,9 +63,6 @@ int run_attacker(int kernel_fd, char *shared_memory) {
         // Use "call_kernel_part1" to interact with the kernel module
         // Find the value of leaked_byte for offset "current_offset"
         // leaked_byte = ??
-        size_t flush_offset;
-        uint64_t dram_latency_bf,dram_latency;
-        volatile char load_shared_mem;
 
         //Use call kernel to access data
         call_kernel_part1(kernel_fd, shared_memory, current_offset);
