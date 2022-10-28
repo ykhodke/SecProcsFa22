@@ -43,7 +43,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
     printf("Launching attacker\n");
 
-    for (current_offset = 0; current_offset < LAB2_SECRET_MAX_LEN; current_offset++) {
+    for (current_offset = 0; current_offset < 1; current_offset++) {
         char leaked_byte;
 
         // [Part 1]- Fill this in!
