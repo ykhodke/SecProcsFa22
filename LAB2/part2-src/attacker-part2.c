@@ -60,7 +60,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
     for (current_offset = 0; current_offset < LAB2_SECRET_MAX_LEN; current_offset++) {
         char leaked_byte;
-        repeat = 0;
+        repeat = 1;
 
         // [Part 1]- Fill this in!
         // Feel free to create helper methods as necessary.
@@ -70,6 +70,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
         while (repeat)
         {
+            repeat = 0;
             /* code */
             //Use call kernel to access data
             call_kernel_part2(kernel_fd, shared_memory, current_offset);
