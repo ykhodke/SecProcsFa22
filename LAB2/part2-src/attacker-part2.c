@@ -50,7 +50,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
     printf("Launching attacker\n");
 
     //Flushing the memory here
-    for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset += 1) {
+    for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
         load_shared_mem = (char)(shared_memory+flush_offset);
         //dram_latency_bf = time_access((void*)(shared_memory+flush_offset));
         clflush((void*)(shared_memory+flush_offset));
