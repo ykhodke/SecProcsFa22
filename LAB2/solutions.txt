@@ -1,0 +1,17 @@
+1.1
+    Since the kernel is placing the retreived secrets at 4096*n location in the shared memory the number of chache
+    lines to be flushed is equal to ceil(LAB2_SHARED_MEMORY_SIZE/4096)
+
+1.2
+    If the attacker and the victim don't have a shared memory the attack won't work as the timing difference in chache
+    access is created by the attacker ejecting shared memory lines from the cache. Without shared memory PRIME+PROBE is 
+    a better attack vector.
+
+2.1
+    In real world attacks the secret value is used in an arithematic operation to create an arbitraily large offset that
+    is greater than the shared memory size. Since access violation checks are delayed till the instruction retires, the caching
+    mechanism has already generated a foot-print in the heirarchy. Since shared memory is also mapped somehwere in the victim's
+    address space an out of bound access might lead to arbitary location in the victim's address space.
+
+2.2
+    Using 
