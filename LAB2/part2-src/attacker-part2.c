@@ -70,7 +70,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
         while (repeat)
         {
-            for (same_twice = 0; same_twice < 5; same_twice++) {
+            for (same_twice = 0; same_twice < 3; same_twice++) {
                 call_kernel_part2(kernel_fd, shared_memory, 0);
             }
 

@@ -14,4 +14,4 @@
     address space an out of bound access might lead to arbitary location in the victim's address space.
 
 2.2
-    Using 
+    Tuning the same_twice counter the attack works reliably with as less as '4' miss-training iterations.
