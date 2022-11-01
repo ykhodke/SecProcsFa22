@@ -72,7 +72,7 @@ int run_attacker(int kernel_fd, char *shared_memory) {
         {
             /* code */
             //Use call kernel to access data
-            call_kernel_part1(kernel_fd, shared_memory, current_offset);
+            call_kernel_part2(kernel_fd, shared_memory, current_offset);
 
             //Reload and measure time and Decode the transmission to get data
             for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
