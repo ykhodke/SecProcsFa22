@@ -62,7 +62,7 @@ def main():
     # Also, while this script will run forever, we will kill your autograder if it takes too long
     if args.part == '1' or args.part == 'all':
         print("Checking part 1...")
-        check("part1", 1000, b"SecProcs{k3rn3l_m3m0r135}", 0.95,30)
+        check("part1", 100, b"SecProcs{k3rn3l_m3m0r135}", 0.95,30)
     if args.part == '2' or args.part == 'all':
         print("Checking part 2...")
         check("part2", 100, b"SecProcs{scary_sp3ctr3!}", 0.95,30)
